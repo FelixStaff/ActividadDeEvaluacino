@@ -4,6 +4,7 @@
 # import json
 import json
 import pyodbc
+import os
 import pandas as pd
 
 config = "load_data/config.json"
@@ -34,6 +35,13 @@ class Config:
         # self.conn = None
         self.conn = None
 
+        self.file_folder = "load_data/temp_data/"
+        # Save if the output.csv exist
+        self.located = False if os.path.exists(self.file_folder + "output.csv") else True
+        if self.located:
+            print("output.csv file not found. Creating a new one.")
+        
+
     # [Method]: Connect to the database
     def connect(self):
         try:
@@ -45,8 +53,15 @@ class Config:
             return None
         
     # [Method]: Make the query to the database
-    def query(self, sql_query : str) -> pd.DataFrame:
+    def query(self, sql_query : str, use_local : bool = False) -> pd.DataFrame:
         try:
+
+            if use_local:
+                # Read the CSV file into a DataFrame
+                df = pd.read_csv(self.file_folder + "output.csv")
+                print("Data loaded from local CSV file.")
+                return df
+            # Execute the SQL query if not using local
             cursor = self.conn.cursor()
             # Connect from pandas
             df = pd.read_sql(sql_query, self.conn)
@@ -64,4 +79,14 @@ class Config:
         else:
             print("No connection to close.")
 
-    
+    # [Method]: Save data from query to a CSV file
+    def save_to_csv(self, sql_query: str, file_path: str = "output.csv"):
+        try:
+            df = self.query(sql_query)
+            if df is not None:
+                df.to_csv(self.file_folder + file_path, index=False)
+                print(f"Data saved to {self.file_folder + file_path} successfully!")
+            else:
+                print("No data to save.")
+        except Exception as e:
+            print(f"Error saving data to CSV: {e}")

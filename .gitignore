@@ -6,7 +6,8 @@ __pycache__/
 # load_data and inside that the password and user .json
 # files
 load_data/configs.json
-
+load_data/temp_data/output.csv
+output.csv
 # C extensions
 *.so
 
