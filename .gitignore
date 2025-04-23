@@ -3,6 +3,10 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# load_data and inside that the password and user .json
+# files
+load_data/configs.json
+
 # C extensions
 *.so
 
