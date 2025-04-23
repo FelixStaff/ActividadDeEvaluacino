@@ -1,50 +1,48 @@
 from load_data.login import Config
-import pandas as pd
-from sklearn.linear_model import LinearRegression
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import OneHotEncoder
-from sklearn.compose import ColumnTransformer
-from sklearn.pipeline import Pipeline
-from sklearn.metrics import mean_squared_error
-# Visualize the prediction of each user
-import matplotlib.pyplot as plt
-import numpy as np
+from model.model import DataProcessor, RegressionModel  # Asegúrate de que estas clases estén en model/model.py
 
-from model.model import RegressionModel
+import pandas as pd
+import pickle
+import matplotlib.pyplot as plt
 
 # [Main]: Main function to run the script
 if __name__ == "__main__":
-    # Create an instance of the Config class
+    # [===================PARA EL PROFESOR===================]
+    validation_dir = "load_data/validation"
+    # [===================PARA EL PROFESOR===================]
+
+    # Cargar configuración
     config = Config("load_data/configs.json")
-    
-    # Connect to the database
     conn = config.connect()
-    
-    # Example SQL query to fetch data from a table
+
+    # Consulta a la base de datos
     sql_query = "SELECT * FROM SalesLT.customer"
-    
-    # Execute the query and fetch results
-    # Save
+
     if config.located:
-        results = config.query(sql_query, use_local=False)
-        results = config.save_to_csv(sql_query, "output.csv")
-    results = config.query(sql_query, use_local=True)
-    
-    # Print the results
-    print (results.head())  # Display the first few rows of the DataFrame
-    df = results.copy()
+        _ = config.query(sql_query, use_local=False)
+        _ = config.save_to_csv(sql_query, "output.csv")
+    results_df = config.query(sql_query, use_local=True)
 
-    # [PIPELINE & MODEL]: Create the pipeline and model
-    model = RegressionModel(df)
-    model.preprocess()
-    model.train()
-    # [PREDICTION]: Make predictions on the test set
-    mse, r2 = model.evaluate()
-    
-    # [VISUALIZATION]: Visualize the predictions
-    model.visualize(None)
-    
-    # Close the connection
+    print(results_df.head())
+    features = ['NameStyle', 'Title', 'FirstName', 'MiddleName', 'LastName',
+                'Suffix', 'CompanyName', 'SalesPerson', 'EmailAddress', 'Phone']
+
+    # Procesamiento
+    processor = DataProcessor(results_df, features)
+    X_train, X_test, y_train, y_test = processor.process_and_split()
+
+    # Entrenamiento
+    regression_model = RegressionModel(features)
+    regression_model.train(X_train, y_train)
+
+    # Evaluación
+    regression_model.evaluate(X_test, y_test)
+
+    # Guardar modelo sin colisiones de memoria
+    regression_model.save("model.pkl")
+
+    # Visualización
+    regression_model.visualize(X_test, y_test)
+
+    # Cerrar conexión
     config.close()
-
-        
