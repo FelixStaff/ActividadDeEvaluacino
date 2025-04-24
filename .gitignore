@@ -10,7 +10,8 @@ load_data/temp_data/output.csv
 output.csv
 # C extensions
 *.so
-
+my_id.json
+scoring_uri.txt
 # Distribution / packaging
 .Python
 build/

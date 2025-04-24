@@ -8,9 +8,8 @@ from azureml.core.webservice import AciWebservice
 import requests
 
 class AzureMLModelManager:
-    def __init__(self, workspace_name: str, subscription_id: str, resource_group: str, location: str):
+    def __init__(self, workspace_name: str, resource_group: str, location: str):
         self.workspace_name = workspace_name
-        self.subscription_id = subscription_id
         self.resource_group = resource_group
         self.location = location
         self.workspace = None
@@ -92,10 +91,9 @@ class AzureMLModelManager:
 if __name__ == "__main__":
     # Crear el administrador del modelo
     model_manager = AzureMLModelManager(
-        workspace_name="hw1_car_pricing",
-        subscription_id="my_subscription_id",  # Esto será cargado desde el archivo 'my_id.json'
-        resource_group="__hw1__",
-        location="eastus"
+        workspace_name="modelregistry",
+        resource_group="class3",
+        location="centralindia"
     )
 
     # Conectar al workspace de Azure
