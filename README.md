@@ -9,7 +9,7 @@ MA3001B - Módulo de Cómputo en la Nube
 
 3. **Ejecutar** `model.py` (entrenamiento de modelo de regresión logística).
 
-4. **Ejecutar** `cloud_deployment.ipynb` (despliegue en la nube).
+4. **Ejecutar** `ModeloSQL_deployment.ipynb` (despliegue en la nube).
 
 5. **Ejecutar** `API.ipynb` (implementación y validación del modelo).
 
