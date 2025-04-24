@@ -5,11 +5,11 @@ MA3001B - Módulo de Cómputo en la Nube
 
 1. Hacer un **fork** de la `main` branch.
 
-2. **Ejecutar** `main.py` (archivo de descarga y conexión a la base de datos).
+2. **Ejecutar** `main.py` (Conexión a la base de datos, la guarda de forma local, entrena el modelo y genera el '.pickle').
 
-3. **Ejecutar** `model.ipynb` (entrenamiento de modelo de regresión logística).
+3. **Ejecutar** `model.py` (entrenamiento de modelo de regresión lineal).
 
-4. **Ejecutar** `cloud_deployment.ipynb` (despliegue en la nube).
+4. **Ejecutar** `ModeloSQL_deployment.ipynb` (despliegue en la nube).
 
 5. **Ejecutar** `API.ipynb` (implementación y validación del modelo).
 
