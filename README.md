@@ -5,7 +5,7 @@ MA3001B - Módulo de Cómputo en la Nube
 
 1. Hacer un **fork** de la `main` branch.
 
-2. **Ejecutar** `login.py` (archivo de descarga y conexión a la base de datos).
+2. **Ejecutar** `main.py` (archivo de descarga y conexión a la base de datos).
 
 3. **Ejecutar** `model.py` (entrenamiento de modelo de regresión lineal).
 
